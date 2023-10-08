@@ -10,9 +10,9 @@
 
 #define TAG "brownout_example"
 
-void brownout_with_interrupt_init(void (*brownout_isr)());
+extern void brownout_with_interrupt_init(void (*brownout_isr)(void));
 
-IRAM_ATTR static void brownout_isr() {
+IRAM_ATTR static void brownout_isr(void) {
   int8_t read_buff = 0;
   nvs_handle flash_hd;
 
@@ -68,7 +68,7 @@ static void s_set_led(bool val) {
   gpio_set_level(12, val);
 }
 
-void app_main() {
+void app_main(void) {
   brownout_with_interrupt_init(brownout_isr);
 
   bool ret = s_read_nvs();

@@ -20,14 +20,14 @@ IRAM_ATTR static void s_brownout_handler(void *arg) {
   esp_cpu_stall(other_core_id);
 #endif
 
-  ((void (*)())arg)();
+  ((void (*)(void))arg)();
 
   for (;;) {
     ;
   }
 }
 
-void brownout_with_interrupt_init(void (*brownout_isr)()) {
+void brownout_with_interrupt_init(void (*brownout_isr)(void)) {
   brownout_hal_config_t cfg = {
       .threshold = 2, // 7~2 -> 2.51, 2.64, 2.76, 2.92, 3.10, 3.27
       .enabled = true,
